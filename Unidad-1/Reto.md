@@ -6,7 +6,8 @@ https://editor.p5js.org/estefaao2006/full/MHuw_i3lM
 
 ## Volcanic Attitude Festival
 
-<img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/06772677-000e-456e-9250-a3b975a2c9b2" />
+<img width="1912" height="895" alt="image" src="https://github.com/user-attachments/assets/01d68a44-9557-47a3-8b30-aa8147e310ca" />
+
 
 ### Resumen
 
@@ -1367,6 +1368,10 @@ class UserAvatar {
 
 <img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/2aa5ac14-6246-4e3e-aa0e-997b5bbb0b36" />
 
+Después me centré en cambiar los colores para que se viera más armónico.
+
+
+
 Finalmente llegué a un diseño que representaba el evento de la forma en la que quería, aunque hubo dificultades en el factor estético que fue un poco frustrante expresar a la IA.
 
 Principalmente en el desarrollo del proyecto encontré las siguientes dificultades:
@@ -1387,4 +1392,4 @@ Principalmente en el desarrollo del proyecto encontré las siguientes dificultad
 | **Simulación con intención: utilizo al menos tres conceptos de la unidad para comunicar las ideas del encargo.** | ☑ | ☐ | Se combinan varios conceptos: **ruido Perlin** para generar variaciones suaves en el recorrido de los guías y la textura del paisaje; **distribución normal** mediante `randomGaussian()` para mantener a los turistas cerca del guía; **Lévy flight** para producir desplazamientos excepcionales de algunos turistas. Además, está una caminata aleatoria en los movimientos de los turistas. |
 | **Interacción significativa: la interacción modifica el comportamiento o las probabilidades del sistema, que también funciona sin intervención.** | ☑ | ☐ | El usuario no mueve directamente a los personajes. Al acercarse a un guía cambia parámetros como `stayCloseProb` y `levyMult`, alterando la probabilidad de que los turistas permanezcan agrupados o realicen vuelos de Lévy. Cuando no hay interacción, la simulación continúa ejecutándose de forma autónoma. También genera un halo aldedor. |
 | **Prototipo funcional: la experiencia puede ejecutarse y recorrerse completa sin errores que impidan comprenderla.** | ☑ | ☐ | El sketch funciona en tiempo real, ocupa toda la pantalla, mantiene la simulación activa y permite recorrer la experiencia mediante teclado (WASD), observando cómo la presencia del usuario modifica el sistema. |
-| **Proceso documentado: la bitácora evidencia avances, decisiones, dificultades, soluciones, uso de IA y enlace al prototipo.** | ☑ | ☐ | La bitácora incluye el proceso de diseño, iteraciones del comportamiento de guías y turistas, decisiones sobre las distribuciones utilizadas, dificultades técnicas, apoyo de IA durante el desarrollo y el enlace al prototipo en p5.js. Si aún no tienes la bitácora, este sería el único criterio que no podrías marcar como cumplido. |
+| **Proceso documentado: la bitácora evidencia avances, decisiones, dificultades, soluciones, uso de IA y enlace al prototipo.** | ☑ | ☐ | La bitácora incluye el proceso de diseño, iteraciones del comportamiento de guías y turistas, decisiones sobre las distribuciones utilizadas, dificultades técnicas, apoyo de IA durante el desarrollo y el enlace al prototipo en p5.js. |
