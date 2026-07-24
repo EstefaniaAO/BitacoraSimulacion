@@ -1,3 +1,5 @@
+
+
 ## Volcanic Attitude Festival
 
 ### Resumen
@@ -54,3 +56,14 @@ En un contexto marcado por conflictos globales, el festival plantea una reflexi�
 ### Idea central
 
 En conjunto, **Volcanic Attitude** propone entender el mundo como un sistema de relaciones y procesos en constante evolución. Los volcanes funcionan como una metáfora y un laboratorio natural para pensar en el cambio, la incertidumbre, la interdependencia y la capacidad de imaginar nuevas formas de habitar el planeta desde la colaboración entre arte, ciencia y comunidad.
+
+
+# Idea para la experiencia:
+
+**Idea inicial:** La experiencia propone representar un recorrido interactivo mediante un mapa. El escenario tendrá un punto de partida ubicado en la esquina inferior izquierda y un destino en la esquina superior derecha, representado por un volcán.
+
+Dentro del mapa se desplazarán varios puntos rojos que simbolizan a los guías. Estos seguirán una trayectoria desde el inicio hasta el volcán utilizando un movimiento orgánico generado con ruido de Perlin. A cada guía lo acompañarán varios puntos negros que representan a los turistas, los cuales se moverán de manera aleatoria, pero procurando mantenerse cerca de su guía para simular el comportamiento de un grupo durante un recorrido.
+
+El usuario interactuará con la experiencia controlando un punto amarillo mediante las teclas **WASD**, permitiéndole desplazarse libremente por el mapa. Cuando el usuario se aproxime a uno de los guías, se generarán pequeñas ondas alrededor de este para representar una interacción o conversación entre ambos.
+
+Como parte del componente visual, el recorrido irá transformando el mapa de forma progresiva. A medida que los turistas avanzan, aparecerán zonas de color que construyen el entorno: tonos azules representarán el mar y tonos cafés se concentrarán alrededor del volcán, reforzando la percepción del paisaje y haciendo visible el progreso del recorrido.
