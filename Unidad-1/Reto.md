@@ -1,4 +1,4 @@
-
+<img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/06772677-000e-456e-9250-a3b975a2c9b2" />
 
 ## Volcanic Attitude Festival
 
@@ -612,28 +612,37 @@ Seguí probando y modificando varias cosas para que se viera el volcán mejor, s
 let guides = [];
 let user;
 let bgTexture;      // Capa 0: Fondo mapa beige vacío
-let seaLayer;       // Capa 1: Mar orgánico + ondas del volcán y de desvío
+let seaLayer;       // Capa 1: Mar orgánico + ondas del volcán y halos de desvío
 let trailsLayer;    // Capa 2: Puntos de guías y turistas
 let startPt, volcanoPt;
 let INFLUENCE_RADIUS;
 let hintAlpha = 255;
 
-// Paleta de amarillos/dorados para turistas (más suave/armónica)
-const YELLOW_PALETTE = [
-  [255, 220, 80],   // Amarillo cálido
-  [240, 190, 60],   // Dorado suave
-  [230, 165, 45],   // Ámbar delicado
-  [250, 230, 140],  // Pastel
-  [215, 170, 65]    // Mostaza suave
+// Paleta Verde Turquesa vibrante y artística para desvíos
+const TURQUOISE_DETOUR_PALETTE = [
+  [0, 230, 180],    // Turquesa brillante
+  [26, 188, 156],   // Verde Turquesa
+  [72, 201, 176],   // Menta luminoso
+  [0, 206, 209],    // Turquesa oscuro
+  [163, 228, 215]   // Menta suave / Pastel
 ];
 
-// Paleta del camino de los guías (equilibrada para no saturar)
+// Paleta de amarillos/dorados para turistas
+const YELLOW_PALETTE = [
+  [255, 220, 80],
+  [240, 190, 60],
+  [230, 165, 45],
+  [250, 230, 140],
+  [215, 170, 65]
+];
+
+// Paleta del camino de los guías
 const DARK_TRAIL_PALETTE = [
-  [110, 45, 30],   // Arcilla
-  [85, 35, 25],    // Marrón rojizo
-  [145, 65, 35],   // Terracota
-  [175, 90, 45],   // Ocre cálido
-  [195, 120, 55]   // Ámbar suave
+  [110, 45, 30],
+  [85, 35, 25],
+  [145, 65, 35],
+  [175, 90, 45],
+  [195, 120, 55]
 ];
 
 // Paletas de Mar armonizadas
@@ -708,7 +717,7 @@ function draw() {
   // Capa 0: Fondo
   image(bgTexture, 0, 0);
 
-  // 1. Emitir ondas continuas desde el volcán al mar
+  // 1. Emitir aros expansivos de circulitos azules desde el volcán
   paintVolcanoSeaRipples();
 
   // Capa 1: Mar acumulativo
@@ -776,24 +785,34 @@ function buildMapTexture() {
 
 // ------------------------------ PAISAJE GENERATIVO ------------------------------
 
-// Ondas continuas de circulitos que emite el volcán en el mar
+// Ondas del volcán: Aros concéntricos que van aumentando de tamaño hechos de círculos azules
 function paintVolcanoSeaRipples() {
-  seaLayer.noFill();
-  seaLayer.strokeWeight(random(1, 2.5));
+  seaLayer.noStroke();
+
+  let maxRadius = max(width, height) * 0.9;
   
-  // Frecuencia suave de emisión de ondas desde el volcán
-  if (frameCount % 4 === 0) {
-    let r = (frameCount * 1.5) % (width * 0.6);
-    let c = random(DARK_SEA_PALETTE);
-    seaLayer.stroke(c[0], c[1], c[2], random(4, 12));
+  // Dibujamos 3 frentes de aros expansivos continuos
+  for (let wave = 0; wave < 3; wave++) {
+    let baseR = ((frameCount * 1.5) + wave * (maxRadius / 3)) % maxRadius;
     
-    // Círculos punteados/orgánicos alrededor del volcán
-    let dots = 16;
+    // Los aros tienen mayor cantidad de puntos si son más grandes
+    let dots = floor(map(baseR, 0, maxRadius, 16, 48));
+
     for (let i = 0; i < dots; i++) {
-      let ang = (TWO_PI / dots) * i + random(-0.1, 0.1);
-      let rx = volcanoPt.x + cos(ang) * (r + random(-8, 8));
-      let ry = volcanoPt.y + sin(ang) * (r + random(-8, 8));
-      seaLayer.circle(rx, ry, random(8, 20));
+      let angle = (TWO_PI / dots) * i + noise(frameCount * 0.01, wave) * 0.5;
+      let rOffset = baseR + (noise(i, frameCount * 0.02) - 0.5) * 20;
+      
+      let x = volcanoPt.x + cos(angle) * rOffset;
+      let y = volcanoPt.y + sin(angle) * rOffset;
+
+      let c = random() < 0.5 ? random(LIGHT_SEA_PALETTE) : random(DARK_SEA_PALETTE);
+      
+      // Muy visibles cerca del volcán, más transparentes al aumentar de tamaño
+      let alpha = map(rOffset, 0, maxRadius, random(30, 70), random(1, 6));
+      
+      seaLayer.fill(c[0], c[1], c[2], alpha);
+      let dotSize = map(rOffset, 0, maxRadius, random(6, 12), random(14, 28));
+      seaLayer.circle(x, y, dotSize);
     }
   }
 }
@@ -839,16 +858,37 @@ function paintSeaWave(pos, prevPos, progress) {
   }
 }
 
-// Onda verde turquesa que queda grabada en la capa del mar cuando el guía se desvía
-function paintGuideTurquoiseDetourRipple(pos) {
-  seaLayer.noFill();
-  seaLayer.stroke(26, 188, 156, random(25, 60)); // Verde Turquesa
-  seaLayer.strokeWeight(1.5);
-  
-  let numRipples = floor(random(2, 4));
-  for (let i = 0; i < numRipples; i++) {
-    let r = random(20, 65);
-    seaLayer.circle(pos.x + random(-5, 5), pos.y + random(-5, 5), r);
+// Halo artístico de mayor radio con tonos verde turquesa que emana mientras el guía descansa
+function paintArtisticTurquoiseHalo(pos, currentRadius) {
+  seaLayer.noStroke();
+
+  // 1. Aro principal en expansión con círculos de colores alrededor
+  let dotsInRing = floor(map(currentRadius, 10, 180, 20, 60));
+  for (let i = 0; i < dotsInRing; i++) {
+    let ang = (TWO_PI / dotsInRing) * i + random(-0.15, 0.15);
+    let r = currentRadius + (noise(i, frameCount * 0.05) - 0.5) * 25;
+    
+    let x = pos.x + cos(ang) * r;
+    let y = pos.y + sin(ang) * r;
+
+    let col = random(TURQUOISE_DETOUR_PALETTE);
+    let alpha = map(currentRadius, 10, 180, random(40, 90), random(10, 30));
+
+    seaLayer.fill(col[0], col[1], col[2], alpha);
+    let sz = random(6, 18);
+    seaLayer.circle(x, y, sz);
+  }
+
+  // 2. Salpicaduras artísticas (polvo/puntos flotantes alrededor)
+  for (let i = 0; i < 6; i++) {
+    let ang = random(TWO_PI);
+    let r = currentRadius + random(-40, 40);
+    let x = pos.x + cos(ang) * r;
+    let y = pos.y + sin(ang) * r;
+
+    let col = random(TURQUOISE_DETOUR_PALETTE);
+    seaLayer.fill(col[0], col[1], col[2], random(15, 50));
+    seaLayer.circle(x, y, random(3, 8));
   }
 }
 
@@ -977,6 +1017,7 @@ class Guide {
     this.state = "marching"; 
     this.detourTarget = null;
     this.detourTimer = 0;
+    this.haloRadius = 10;
     this.pathPos = startPt.copy();
 
     this.stayCloseProb = 0.7;
@@ -1014,14 +1055,11 @@ class Guide {
       if (random() < 0.0015) {
         this.state = "detouring";
         let detourAng = random(TWO_PI);
-        let detourDist = random(40, 90);
+        let detourDist = random(50, 110);
         this.detourTarget = createVector(
           constrain(this.pos.x + cos(detourAng) * detourDist, 30, width - 30),
           constrain(this.pos.y + sin(detourAng) * detourDist, 30, height - 30)
         );
-        
-        // Emite la onda verde turquesa sobre el mar
-        paintGuideTurquoiseDetourRipple(this.pos);
       }
 
     } else if (this.state === "detouring") {
@@ -1029,12 +1067,21 @@ class Guide {
       if (toTarget.mag() > 3) {
         this.pos.add(toTarget.normalize().mult(dt * 0.04));
       } else {
+        // Al LLEGAR al punto, se inicia la fase de descanso e inicio de expansión del halo
         this.state = "resting";
-        this.detourTimer = random(2000, 5000);
+        this.detourTimer = random(2500, 5000);
+        this.haloRadius = 10;
       }
 
     } else if (this.state === "resting") {
       this.detourTimer -= dt;
+
+      // Durante el descanso se expande el halo artístico pintando en seaLayer
+      if (this.haloRadius < 180) {
+        paintArtisticTurquoiseHalo(this.pos, this.haloRadius);
+        this.haloRadius += dt * 0.06;
+      }
+
       if (this.detourTimer <= 0) {
         this.state = "returning";
       }
@@ -1054,7 +1101,6 @@ class Guide {
     let d = p5.Vector.dist(user.pos, this.pos);
     let near = d < INFLUENCE_RADIUS;
     
-    // Si el usuario está cerca, activa el modo "aprendizaje"
     if (near) {
       user.isLearning = true;
     }
@@ -1215,7 +1261,6 @@ class UserAvatar {
     this.pos.x = constrain(this.pos.x, 10, width - 10);
     this.pos.y = constrain(this.pos.y, 10, height - 10);
 
-    // Resetea el flag de aprendizaje en cada frame (los guías lo activan si está cerca)
     this.isLearning = false;
   }
 
@@ -1223,7 +1268,6 @@ class UserAvatar {
     noStroke();
 
     if (this.isLearning) {
-      // Transición Arcoíris cuando está aprendiendo (Círculo cromático HSB)
       colorMode(HSB, 360, 100, 100);
       this.rainbowHue = (this.rainbowHue + 3) % 360;
       
@@ -1233,15 +1277,16 @@ class UserAvatar {
       fill(this.rainbowHue, 85, 95);
       circle(this.pos.x, this.pos.y, 15);
       
-      colorMode(RGB, 255); // Volver al modo estándar RGB
+      colorMode(RGB, 255);
     } else {
-      // Verde Esmeralda por defecto
       fill(46, 204, 113, 60);
       circle(this.pos.x, this.pos.y, 30);
       
-      fill(46, 204, 113, 230); // #2ECC71
+      fill(46, 204, 113, 230);
       circle(this.pos.x, this.pos.y, 14);
     }
   }
 }
 ```
+
+<img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/2aa5ac14-6246-4e3e-aa0e-997b5bbb0b36" />
