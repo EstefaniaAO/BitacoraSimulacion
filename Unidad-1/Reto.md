@@ -1370,6 +1370,7 @@ class UserAvatar {
 
 Después me centré en cambiar los colores para que se viera más armónico.
 
+<img width="1912" height="895" alt="image" src="https://github.com/user-attachments/assets/93b3592e-c5fb-4a52-a4fb-192621535ae5" />
 
 
 Finalmente llegué a un diseño que representaba el evento de la forma en la que quería, aunque hubo dificultades en el factor estético que fue un poco frustrante expresar a la IA.
