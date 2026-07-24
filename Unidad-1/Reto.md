@@ -656,7 +656,7 @@ const LIGHT_SEA_PALETTE = [
 const DARK_SEA_PALETTE = [
   [25, 70, 120],   
   [35, 95, 150],   
-  [20, 55, 100],    
+  [20, 55, 100],   
   [45, 110, 165]   
 ];
 
@@ -676,7 +676,8 @@ function setup() {
   trailsLayer.clear();
 
   user = new UserAvatar();
-  INFLUENCE_RADIUS = min(width, height) * 0.16;
+  // Radio reducido a la mitad (antes era 0.16)
+  INFLUENCE_RADIUS = min(width, height) * 0.08;
 
   guides = [];
   let n = floor(random(4, 7));
@@ -697,7 +698,7 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   computeAnchors();
   buildMapTexture();
-  INFLUENCE_RADIUS = min(width, height) * 0.16;
+  INFLUENCE_RADIUS = min(width, height) * 0.08;
   
   let newSea = createGraphics(width, height);
   newSea.image(seaLayer, 0, 0, width, height);
@@ -731,7 +732,7 @@ function draw() {
   drawStart();
 
   // Capa 4: Personajes
-  user.update();
+  user.update(dt);
   for (let g of guides) {
     g.update(dt);
     g.display();
@@ -785,17 +786,13 @@ function buildMapTexture() {
 
 // ------------------------------ PAISAJE GENERATIVO ------------------------------
 
-// Ondas del volcán: Aros concéntricos que van aumentando de tamaño hechos de círculos azules
 function paintVolcanoSeaRipples() {
   seaLayer.noStroke();
 
   let maxRadius = max(width, height) * 0.9;
   
-  // Dibujamos 3 frentes de aros expansivos continuos
   for (let wave = 0; wave < 3; wave++) {
     let baseR = ((frameCount * 1.5) + wave * (maxRadius / 3)) % maxRadius;
-    
-    // Los aros tienen mayor cantidad de puntos si son más grandes
     let dots = floor(map(baseR, 0, maxRadius, 16, 48));
 
     for (let i = 0; i < dots; i++) {
@@ -806,8 +803,6 @@ function paintVolcanoSeaRipples() {
       let y = volcanoPt.y + sin(angle) * rOffset;
 
       let c = random() < 0.5 ? random(LIGHT_SEA_PALETTE) : random(DARK_SEA_PALETTE);
-      
-      // Muy visibles cerca del volcán, más transparentes al aumentar de tamaño
       let alpha = map(rOffset, 0, maxRadius, random(30, 70), random(1, 6));
       
       seaLayer.fill(c[0], c[1], c[2], alpha);
@@ -817,7 +812,6 @@ function paintVolcanoSeaRipples() {
   }
 }
 
-// Mar fluido con cambio de tonalidad hacia el volcán
 function paintSeaWave(pos, prevPos, progress) {
   seaLayer.noStroke();
   
@@ -858,11 +852,9 @@ function paintSeaWave(pos, prevPos, progress) {
   }
 }
 
-// Halo artístico de mayor radio con tonos verde turquesa que emana mientras el guía descansa
 function paintArtisticTurquoiseHalo(pos, currentRadius) {
   seaLayer.noStroke();
 
-  // 1. Aro principal en expansión con círculos de colores alrededor
   let dotsInRing = floor(map(currentRadius, 10, 180, 20, 60));
   for (let i = 0; i < dotsInRing; i++) {
     let ang = (TWO_PI / dotsInRing) * i + random(-0.15, 0.15);
@@ -879,7 +871,6 @@ function paintArtisticTurquoiseHalo(pos, currentRadius) {
     seaLayer.circle(x, y, sz);
   }
 
-  // 2. Salpicaduras artísticas (polvo/puntos flotantes alrededor)
   for (let i = 0; i < 6; i++) {
     let ang = random(TWO_PI);
     let r = currentRadius + random(-40, 40);
@@ -892,7 +883,6 @@ function paintArtisticTurquoiseHalo(pos, currentRadius) {
   }
 }
 
-// Camino de los guías
 function paintGuideTrail(pos) {
   trailsLayer.noStroke();
   let c = random(DARK_TRAIL_PALETTE);
@@ -900,7 +890,6 @@ function paintGuideTrail(pos) {
   trailsLayer.circle(pos.x + random(-12, 12), pos.y + random(-12, 12), random(12, 26));
 }
 
-// Puntos amarillos de los turistas
 function paintTouristDots(pos) {
   trailsLayer.noStroke();
   let col = random(YELLOW_PALETTE);
@@ -985,7 +974,7 @@ function drawHint() {
   fill(80, 55, 30, hintAlpha);
   textSize(13);
   textAlign(LEFT, TOP);
-  text("WASD para moverte · Acércate a un guía para aprender", 20, 24);
+  text("WASD para moverte · Sigue las huellas marcadas", 20, 24);
   pop();
   hintAlpha -= 0.3;
 }
@@ -1051,7 +1040,6 @@ class Guide {
       this.pathPos = p5.Vector.add(base, offset);
       this.pos = this.pathPos.copy();
 
-      // Inicio de desvío
       if (random() < 0.0015) {
         this.state = "detouring";
         let detourAng = random(TWO_PI);
@@ -1067,7 +1055,6 @@ class Guide {
       if (toTarget.mag() > 3) {
         this.pos.add(toTarget.normalize().mult(dt * 0.04));
       } else {
-        // Al LLEGAR al punto, se inicia la fase de descanso e inicio de expansión del halo
         this.state = "resting";
         this.detourTimer = random(2500, 5000);
         this.haloRadius = 10;
@@ -1076,7 +1063,6 @@ class Guide {
     } else if (this.state === "resting") {
       this.detourTimer -= dt;
 
-      // Durante el descanso se expande el halo artístico pintando en seaLayer
       if (this.haloRadius < 180) {
         paintArtisticTurquoiseHalo(this.pos, this.haloRadius);
         this.haloRadius += dt * 0.06;
@@ -1241,12 +1227,37 @@ class Tourist {
 class UserAvatar {
   constructor() {
     this.pos = startPt.copy();
-    this.speed = 2.6;
+    this.speed = 0.08; // Velocidad pausada, alineada al ritmo de movimiento del grupo
     this.isLearning = false;
     this.rainbowHue = 0;
   }
 
-  update() {
+  // Verifica si un punto objetivo está sobre un camino dibujado o cerca de un guía/turista
+  isOnTrail(targetPos) {
+    // 1. Inmunidad en el punto de partida para poder comenzar a caminar
+    if (p5.Vector.dist(targetPos, startPt) < 30) return true;
+
+    // 2. Comprobar si hay rastro en la capa de senderos
+    trailsLayer.loadPixels();
+    let px = floor(constrain(targetPos.x, 0, width - 1));
+    let py = floor(constrain(targetPos.y, 0, height - 1));
+    let idx = 4 * (py * width + px);
+    let alpha = trailsLayer.pixels[idx + 3];
+
+    if (alpha > 5) return true;
+
+    // 3. Permite avanzar directamente sobre la posición actual de guías o turistas
+    for (let g of guides) {
+      if (p5.Vector.dist(targetPos, g.pos) < 25) return true;
+      for (let t of g.tourists) {
+        if (p5.Vector.dist(targetPos, t.pos) < 15) return true;
+      }
+    }
+
+    return false;
+  }
+
+  update(dt) {
     let v = createVector(0, 0);
     if (keyIsDown(87)) v.y -= 1; // W
     if (keyIsDown(83)) v.y += 1; // S
@@ -1254,8 +1265,13 @@ class UserAvatar {
     if (keyIsDown(68)) v.x += 1; // D
     
     if (v.mag() > 0) {
-      v.normalize().mult(this.speed);
-      this.pos.add(v);
+      v.normalize().mult(this.speed * dt);
+      let nextPos = p5.Vector.add(this.pos, v);
+
+      // Solo avanza si la siguiente posición está sobre un sendero o cerca de caminantes
+      if (this.isOnTrail(nextPos)) {
+        this.pos = nextPos;
+      }
     }
     
     this.pos.x = constrain(this.pos.x, 10, width - 10);
