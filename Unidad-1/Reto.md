@@ -2,6 +2,8 @@
 
 https://editor.p5js.org/estefaao2006/sketches/MHuw_i3lM
 
+https://editor.p5js.org/estefaao2006/full/MHuw_i3lM
+
 ## Volcanic Attitude Festival
 
 ### Resumen
@@ -657,6 +659,8 @@ En general, el proceso fue ir tomando una idea inicial bastante simple y convert
 
 
 <img width="1902" height="774" alt="image" src="https://github.com/user-attachments/assets/9aa04aa5-3ff0-4231-9ecd-d5d0006fc2e8" />
+
+Cambié la forma en la que se generaba el mar ya que sentia que al ser una gradiente definida le quitaba ese factor de que fuera aun más único cada vez que se ejecutaba. Le puse una paleta de colores claros y oscuros segun su cercanía al recorrido y al volcán, donde se formaran diferentes olas de colores hasta llenar el mar.
 
 ```
 // ----------------------------------------------------------------------------------
@@ -1361,9 +1365,24 @@ class UserAvatar {
 
 <img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/2aa5ac14-6246-4e3e-aa0e-997b5bbb0b36" />
 
+Finalmente llegué a un diseño que representaba el evento de la forma en la que quería, aunque hubo dificultades en el factor estético que fue un poco frustrante expresar a la IA.
+
+Principalmente en el desarrollo del proyecto encontré las siguientes dificultades:
+
 | Dificultad / Problema | Causa raíz | Solución implementada |
 |-----------------------|------------|------------------------|
 | Traducir la visión creativa a prompts de código | Resultaba difícil describir con palabras conceptos visuales abstractos (como la sensación de un mapa antiguo o un movimiento orgánico) para convertirlos en lógica de programación. | Se descompuso cada idea visual en parámetros concretos como colores específicos, ruido de Perlin, distribuciones gaussianas y el uso de capas independientes con `createGraphics`. |
 | Ajustar la estética sin perder la coherencia | Al modificar colores, texturas o formas para mejorar el resultado visual, era fácil romper la armonía del mapa o dificultar su lectura. | Se definió una paleta inspirada en cartografía vintage: tonos beige para la base, colores oscuros para los personajes y acuarelas suaves en azules y ocres para construir el paisaje. |
 | Hacer la simulación más interesante visualmente | El movimiento de los puntos podía sentirse como un algoritmo abstracto sin suficiente personalidad ni narrativa. | Se añadieron elementos visuales como rastros del recorrido, halos de influencia, ondas cuando el usuario interactúa con los guías y efectos que hacen más evidente la construcción progresiva del paisaje. |
 | Adaptar la experiencia a un contexto de feria | En un festival los visitantes deben comprender rápidamente cómo interactuar sin necesidad de leer instrucciones largas. | Se implementó un control simple con las teclas **WASD**, un mensaje inicial de ayuda y retroalimentación visual inmediata mediante ondas cuando el usuario se acerca a un guía. |
+
+
+## Autoevaluación:
+
+| Criterio | Cumplo | No cumplo | Evidencia |
+|---------|:------:|:---------:|-----------|
+| **Encargo completo: interpreto los cinco momentos dentro de un mismo sistema visual.** | ☑ | ☐ | Toda la experiencia ocurre en un único sistema visual ("Peregrinaje al Volcán"). **Posibilidad:** los turistas presentan movimiento aleatorio alrededor de los guías. **Tendencia:** los guías siguen repetidamente una ruta hacia el volcán. **Normalidad:** la mayoría de los turistas permanece cerca del guía mediante una distribución normal de distancias. **Excepción:** algunos turistas realizan *Lévy flights*, explorando regiones lejanas antes de regresar. **Influencia:** la cercanía del usuario modifica las probabilidades del comportamiento colectivo sin controlar completamente el sistema. |
+| **Simulación con intención: utilizo al menos tres conceptos de la unidad para comunicar las ideas del encargo.** | ☑ | ☐ | Se combinan varios conceptos: **ruido Perlin** para generar variaciones suaves en el recorrido de los guías y la textura del paisaje; **distribución normal** mediante `randomGaussian()` para mantener a los turistas cerca del guía; **Lévy flight** para producir desplazamientos excepcionales de algunos turistas. Además, existe una caminata con componente aleatoria en los movimientos de los agentes. |
+| **Interacción significativa: la interacción modifica el comportamiento o las probabilidades del sistema, que también funciona sin intervención.** | ☑ | ☐ | El usuario no mueve directamente a los personajes. Al acercarse a un guía cambia parámetros como `stayCloseProb` y `levyMult`, alterando la probabilidad de que los turistas permanezcan agrupados o realicen vuelos de Lévy. Cuando no hay interacción, la simulación continúa ejecutándose de forma autónoma. |
+| **Prototipo funcional: la experiencia puede ejecutarse y recorrerse completa sin errores que impidan comprenderla.** | ☑ | ☐ | El sketch funciona en tiempo real, ocupa toda la pantalla, mantiene la simulación activa y permite recorrer la experiencia mediante teclado (WASD), observando cómo la presencia del usuario modifica el sistema. |
+| **Proceso documentado: la bitácora evidencia avances, decisiones, dificultades, soluciones, uso de IA y enlace al prototipo.** | ☑ *(si la tienes)* | ☐ | La bitácora incluye el proceso de diseño, iteraciones del comportamiento de guías y turistas, decisiones sobre las distribuciones utilizadas, dificultades técnicas, apoyo de IA durante el desarrollo y el enlace al prototipo en p5.js. Si aún no tienes la bitácora, este sería el único criterio que no podrías marcar como cumplido. |
