@@ -91,6 +91,13 @@ Esta idea la conversé con la IA la cual propuso los siguientes cambios:
 
 ---
 
+Al principio tenía claro que quería hacer algo relacionado con un recorrido porque sentía que conectaba muy bien con la idea del festival y con el concepto de exploración. Pensé en hacer un mapa donde hubiera un punto de inicio y un volcán como destino, con unos guías que llevaran a un grupo de turistas hasta allá. También quería que el recorrido fuera construyendo poco a poco el paisaje para que se sintiera como si el territorio se fuera descubriendo mientras avanzaban.
+
+Después empecé a revisar mejor los requisitos del reto y me di cuenta de que no bastaba con que la idea se viera bonita o contara una historia, sino que los comportamientos del sistema tenían que representar los conceptos de aleatoriedad. Ahí fue cuando empecé a replantear varias partes del proyecto.
+
+
+---
+
 **Idea final:** 
 
 
@@ -141,6 +148,8 @@ La experiencia debe transmitir que: existen muchas trayectorias posibles; peque�
 <img width="1869" height="915" alt="image" src="https://github.com/user-attachments/assets/cfa447b0-c13d-4d96-8782-f0ab272a7fd8" />
 
 Inicialmente surgió este prototipo, el cual contaba inicialmente con los requerimientos excepto el mar y el fondo de mapa. Intenté en un principio guiar a la IA para crear el mapa, modificar los recorridos de forma más llamativa y manejar de mejor forma el recorrido.
+Uno de los cambios más importantes fue el movimiento de los personajes. En un principio los turistas simplemente se movían de forma aleatoria alrededor del guía, pero luego decidí que era mejor usar una distribución normal para que la mayoría permaneciera cerca y solo unos pocos se alejaran más. También agregué los Lévy flights para que, muy de vez en cuando, un turista hiciera un recorrido mucho más largo y pudiera descubrir nuevas zonas del mapa.
+
 
 <img width="1333" height="748" alt="image" src="https://github.com/user-attachments/assets/f22039dc-2244-41e1-aa97-f26630bdc5a7" />
 
@@ -638,6 +647,14 @@ class UserAvatar {
 Seguí probando y modificando varias cosas para que se viera el volcán mejor, se llenara más el mapa y fueran colores más agradables.
 
 <img width="1901" height="780" alt="image" src="https://github.com/user-attachments/assets/37641ce8-e33f-4540-adc6-02d165cd18f1" />
+
+
+Otra cosa que cambió bastante fue la interacción. Al comienzo el usuario solo generaba unas ondas cuando se acercaba a un guía porque quería representar una conversación. Después entendí que el ejercicio pedía que la interacción modificara realmente el sistema, así que cambié esa parte para que la presencia del usuario alterara las probabilidades del comportamiento de los turistas, haciendo que permanecieran más cerca del guía y reduciendo la posibilidad de que ocurrieran desviaciones largas.
+
+También fui ajustando la parte visual. Probé diferentes colores, tamaños y formas de construir el paisaje hasta llegar a una estética que se sintiera más coherente con el festival. En lugar de mostrar el mapa completo desde el inicio, hice que el mar y los recorridos fueran apareciendo poco a poco a medida que los personajes avanzan, para que el paisaje se construya con las trayectorias del sistema y cada ejecución sea diferente.
+
+En general, el proceso fue ir tomando una idea inicial bastante simple y convertirla poco a poco en un sistema donde las probabilidades, el movimiento y la interacción fueran los que comunicaran el concepto de incertidumbre, en lugar de hacerlo únicamente con elementos visuales.
+
 
 <img width="1902" height="774" alt="image" src="https://github.com/user-attachments/assets/9aa04aa5-3ff0-4231-9ecd-d5d0006fc2e8" />
 
@@ -1343,3 +1360,10 @@ class UserAvatar {
 ```
 
 <img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/2aa5ac14-6246-4e3e-aa0e-997b5bbb0b36" />
+
+| Dificultad / Problema | Causa raíz | Solución implementada |
+|-----------------------|------------|------------------------|
+| Traducir la visión creativa a prompts de código | Resultaba difícil describir con palabras conceptos visuales abstractos (como la sensación de un mapa antiguo o un movimiento orgánico) para convertirlos en lógica de programación. | Se descompuso cada idea visual en parámetros concretos como colores específicos, ruido de Perlin, distribuciones gaussianas y el uso de capas independientes con `createGraphics`. |
+| Ajustar la estética sin perder la coherencia | Al modificar colores, texturas o formas para mejorar el resultado visual, era fácil romper la armonía del mapa o dificultar su lectura. | Se definió una paleta inspirada en cartografía vintage: tonos beige para la base, colores oscuros para los personajes y acuarelas suaves en azules y ocres para construir el paisaje. |
+| Hacer la simulación más interesante visualmente | El movimiento de los puntos podía sentirse como un algoritmo abstracto sin suficiente personalidad ni narrativa. | Se añadieron elementos visuales como rastros del recorrido, halos de influencia, ondas cuando el usuario interactúa con los guías y efectos que hacen más evidente la construcción progresiva del paisaje. |
+| Adaptar la experiencia a un contexto de feria | En un festival los visitantes deben comprender rápidamente cómo interactuar sin necesidad de leer instrucciones largas. | Se implementó un control simple con las teclas **WASD**, un mensaje inicial de ayuda y retroalimentación visual inmediata mediante ondas cuando el usuario se acerca a un guía. |
