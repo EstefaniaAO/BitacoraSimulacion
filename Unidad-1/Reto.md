@@ -597,3 +597,651 @@ class UserAvatar {
 }
 
 ```
+
+Seguí probando y modificando varias cosas para que se viera el volcán mejor, se llenara más el mapa y fueran colores más agradables.
+
+<img width="1901" height="780" alt="image" src="https://github.com/user-attachments/assets/37641ce8-e33f-4540-adc6-02d165cd18f1" />
+
+<img width="1902" height="774" alt="image" src="https://github.com/user-attachments/assets/9aa04aa5-3ff0-4231-9ecd-d5d0006fc2e8" />
+
+```
+// ----------------------------------------------------------------------------------
+// PEREGRINAJE AL VOLCÁN - Arte Generativo en p5.js
+// ----------------------------------------------------------------------------------
+
+let guides = [];
+let user;
+let bgTexture;      // Capa 0: Fondo mapa beige vacío
+let seaLayer;       // Capa 1: Mar orgánico + ondas del volcán y de desvío
+let trailsLayer;    // Capa 2: Puntos de guías y turistas
+let startPt, volcanoPt;
+let INFLUENCE_RADIUS;
+let hintAlpha = 255;
+
+// Paleta de amarillos/dorados para turistas (más suave/armónica)
+const YELLOW_PALETTE = [
+  [255, 220, 80],   // Amarillo cálido
+  [240, 190, 60],   // Dorado suave
+  [230, 165, 45],   // Ámbar delicado
+  [250, 230, 140],  // Pastel
+  [215, 170, 65]    // Mostaza suave
+];
+
+// Paleta del camino de los guías (equilibrada para no saturar)
+const DARK_TRAIL_PALETTE = [
+  [110, 45, 30],   // Arcilla
+  [85, 35, 25],    // Marrón rojizo
+  [145, 65, 35],   // Terracota
+  [175, 90, 45],   // Ocre cálido
+  [195, 120, 55]   // Ámbar suave
+];
+
+// Paletas de Mar armonizadas
+const LIGHT_SEA_PALETTE = [
+  [180, 230, 240], 
+  [160, 220, 235], 
+  [140, 205, 225], 
+  [200, 240, 248]  
+];
+
+const DARK_SEA_PALETTE = [
+  [25, 70, 120],   
+  [35, 95, 150],   
+  [20, 55, 100],    
+  [45, 110, 165]   
+];
+
+function setup() {
+  pixelDensity(1);
+  createCanvas(windowWidth, windowHeight);
+  frameRate(60);
+  
+  colorMode(RGB, 255);
+  computeAnchors();
+  buildMapTexture();
+
+  seaLayer = createGraphics(width, height);
+  seaLayer.clear();
+
+  trailsLayer = createGraphics(width, height);
+  trailsLayer.clear();
+
+  user = new UserAvatar();
+  INFLUENCE_RADIUS = min(width, height) * 0.16;
+
+  guides = [];
+  let n = floor(random(4, 7));
+  for (let i = 0; i < n; i++) {
+    guides.push(new Guide(i));
+  }
+}
+
+function computeAnchors() {
+  startPt = createVector(width * 0.1, height * 0.92);
+  volcanoPt = createVector(width * 0.85, height * 0.12);
+}
+
+function windowResized() {
+  let oldW = width;
+  let oldH = height;
+
+  resizeCanvas(windowWidth, windowHeight);
+  computeAnchors();
+  buildMapTexture();
+  INFLUENCE_RADIUS = min(width, height) * 0.16;
+  
+  let newSea = createGraphics(width, height);
+  newSea.image(seaLayer, 0, 0, width, height);
+  seaLayer = newSea;
+
+  let newTrails = createGraphics(width, height);
+  newTrails.image(trailsLayer, 0, 0, width, height);
+  trailsLayer = newTrails;
+
+  user.pos.x = map(user.pos.x, 0, oldW, 0, width);
+  user.pos.y = map(user.pos.y, 0, oldH, 0, height);
+}
+
+function draw() {
+  let dt = min(deltaTime, 50);
+
+  // Capa 0: Fondo
+  image(bgTexture, 0, 0);
+
+  // 1. Emitir ondas continuas desde el volcán al mar
+  paintVolcanoSeaRipples();
+
+  // Capa 1: Mar acumulativo
+  image(seaLayer, 0, 0);
+
+  // Capa 2: Senderos y manchas
+  image(trailsLayer, 0, 0);
+
+  // Capa 3: Anclas fijas
+  drawVolcano();
+  drawStart();
+
+  // Capa 4: Personajes
+  user.update();
+  for (let g of guides) {
+    g.update(dt);
+    g.display();
+  }
+  user.display();
+
+  drawHint();
+}
+
+// ------------------------------ CAPA 0: TEXTURA BASE ------------------------------
+
+function buildMapTexture() {
+  bgTexture = createGraphics(width, height);
+  bgTexture.pixelDensity(1);
+  bgTexture.noStroke();
+
+  let step = 8;
+  for (let x = 0; x < width + step; x += step) {
+    for (let y = 0; y < height + step; y += step) {
+      let n = noise(x * 0.003, y * 0.003);
+      let r = lerp(246, 238, n);
+      let g = lerp(201, 185, n);
+      let b = lerp(74,  90,  n);
+      bgTexture.fill(r, g, b);
+      bgTexture.rect(x, y, step, step);
+    }
+  }
+
+  let grains = floor((width * height) / 600);
+  for (let i = 0; i < grains; i++) {
+    let gx = random(width), gy = random(height);
+    let shade = random() < 0.5 ? 0 : 255;
+    bgTexture.fill(shade, random(5, 18));
+    bgTexture.circle(gx, gy, random(1, 2));
+  }
+
+  bgTexture.noFill();
+  for (let i = 0; i < 8; i++) {
+    bgTexture.stroke(140, 90, 30, 20);
+    bgTexture.strokeWeight(1);
+    let yBase = random(height);
+    let seed = i * 45.2;
+    bgTexture.beginShape();
+    for (let x = 0; x <= width + 50; x += 30) {
+      let yy = yBase + (noise(x * 0.002, seed) - 0.5) * 160;
+      bgTexture.curveVertex(x, yy);
+    }
+    bgTexture.endShape();
+  }
+}
+
+// ------------------------------ PAISAJE GENERATIVO ------------------------------
+
+// Ondas continuas de circulitos que emite el volcán en el mar
+function paintVolcanoSeaRipples() {
+  seaLayer.noFill();
+  seaLayer.strokeWeight(random(1, 2.5));
+  
+  // Frecuencia suave de emisión de ondas desde el volcán
+  if (frameCount % 4 === 0) {
+    let r = (frameCount * 1.5) % (width * 0.6);
+    let c = random(DARK_SEA_PALETTE);
+    seaLayer.stroke(c[0], c[1], c[2], random(4, 12));
+    
+    // Círculos punteados/orgánicos alrededor del volcán
+    let dots = 16;
+    for (let i = 0; i < dots; i++) {
+      let ang = (TWO_PI / dots) * i + random(-0.1, 0.1);
+      let rx = volcanoPt.x + cos(ang) * (r + random(-8, 8));
+      let ry = volcanoPt.y + sin(ang) * (r + random(-8, 8));
+      seaLayer.circle(rx, ry, random(8, 20));
+    }
+  }
+}
+
+// Mar fluido con cambio de tonalidad hacia el volcán
+function paintSeaWave(pos, prevPos, progress) {
+  seaLayer.noStroke();
+  
+  let moveDir = p5.Vector.sub(pos, prevPos);
+  if (moveDir.magSq() < 0.0001) {
+    moveDir = p5.Vector.sub(volcanoPt, startPt);
+  }
+  
+  let perp = createVector(-moveDir.y, moveDir.x).normalize();
+  let maxWaveWidth = map(progress, 0, 1, width * 0.25, width * 1.2);
+  let numCircles = 10;
+  let wavePulse = (sin(millis() * 0.003) + 1) * 0.5;
+
+  for (let i = -numCircles; i <= numCircles; i++) {
+    if (i === 0) continue; 
+    
+    let offsetFactor = (i / numCircles);
+    let distFromPath = offsetFactor * maxWaveWidth * lerp(0.6, 1.0, wavePulse);
+    let n = noise(pos.x * 0.005 + i, pos.y * 0.005 + progress);
+    let offset = distFromPath + (n - 0.5) * 45;
+    let wavePos = p5.Vector.add(pos, p5.Vector.mult(perp, offset));
+    
+    let dTotal = dist(startPt.x, startPt.y, volcanoPt.x, volcanoPt.y);
+    let distToVolcanoFactor = constrain(dist(wavePos.x, wavePos.y, startPt.x, startPt.y) / dTotal, 0, 1);
+    
+    let seaCol;
+    if (random() > distToVolcanoFactor) {
+      let c = random(LIGHT_SEA_PALETTE);
+      seaCol = color(c[0], c[1], c[2], random(5, 12));
+    } else {
+      let c = random(DARK_SEA_PALETTE);
+      seaCol = color(c[0], c[1], c[2], random(4, 10));
+    }
+    
+    seaLayer.fill(seaCol);
+    let dynamicSize = map(abs(offset), 0, maxWaveWidth, random(10, 18), random(28, 48));
+    seaLayer.circle(wavePos.x, wavePos.y, dynamicSize);
+  }
+}
+
+// Onda verde turquesa que queda grabada en la capa del mar cuando el guía se desvía
+function paintGuideTurquoiseDetourRipple(pos) {
+  seaLayer.noFill();
+  seaLayer.stroke(26, 188, 156, random(25, 60)); // Verde Turquesa
+  seaLayer.strokeWeight(1.5);
+  
+  let numRipples = floor(random(2, 4));
+  for (let i = 0; i < numRipples; i++) {
+    let r = random(20, 65);
+    seaLayer.circle(pos.x + random(-5, 5), pos.y + random(-5, 5), r);
+  }
+}
+
+// Camino de los guías
+function paintGuideTrail(pos) {
+  trailsLayer.noStroke();
+  let c = random(DARK_TRAIL_PALETTE);
+  trailsLayer.fill(c[0], c[1], c[2], random(25, 55));
+  trailsLayer.circle(pos.x + random(-12, 12), pos.y + random(-12, 12), random(12, 26));
+}
+
+// Puntos amarillos de los turistas
+function paintTouristDots(pos) {
+  trailsLayer.noStroke();
+  let col = random(YELLOW_PALETTE);
+  trailsLayer.fill(col[0], col[1], col[2], random(20, 50));
+  trailsLayer.circle(pos.x + random(-2, 2), pos.y + random(-2, 2), random(5, 12));
+}
+
+// ------------------------------ ELEMENTOS FIJOS ------------------------------
+
+function drawVolcano() {
+  push();
+  translate(volcanoPt.x, volcanoPt.y);
+
+  noStroke();
+  for (let r = 80; r > 10; r -= 10) {
+    fill(240, 90, 30, map(r, 80, 10, 5, 45));
+    ellipse(0, 15, r * 1.8, r * 0.9);
+  }
+
+  stroke(90, 40, 25, 180);
+  strokeWeight(1.2);
+  fill(130, 60, 40, 230);
+  
+  beginShape();
+  vertex(-55, 45);
+  curveVertex(-35, 10);
+  vertex(-18, -20);
+  vertex(0, -18);
+  vertex(0, 48);
+  endShape(CLOSE);
+
+  fill(160, 75, 45, 230);
+  beginShape();
+  vertex(0, -18);
+  vertex(18, -20);
+  curveVertex(35, 10);
+  vertex(55, 45);
+  vertex(0, 48);
+  endShape(CLOSE);
+
+  noFill();
+  stroke(80, 35, 20, 100);
+  strokeWeight(1);
+  ellipse(0, 15, 75, 25);
+  ellipse(0, 30, 95, 30);
+
+  noStroke();
+  fill(50, 20, 15);
+  ellipse(0, -19, 36, 12);
+  fill(255, 100, 20);
+  ellipse(0, -19, 26, 8);
+  fill(255, 215, 0);
+  ellipse(0, -19, 14, 4);
+
+  let t = millis() * 0.0012;
+  for (let i = 0; i < 6; i++) {
+    let yOff = (t * 25 + i * 18) % 90;
+    let alpha = map(yOff, 0, 90, 120, 0);
+    let size = map(yOff, 0, 90, 10, 38);
+    let xOff = (noise(t + i) - 0.5) * 22;
+    fill(90, 75, 70, alpha);
+    circle(xOff, -22 - yOff, size);
+  }
+
+  pop();
+}
+
+function drawStart() {
+  push();
+  noFill();
+  stroke(160, 60, 40, 180);
+  strokeWeight(1.5);
+  circle(startPt.x, startPt.y, 24);
+  circle(startPt.x, startPt.y, 10);
+  pop();
+}
+
+function drawHint() {
+  if (hintAlpha <= 0) return;
+  push();
+  noStroke();
+  fill(80, 55, 30, hintAlpha);
+  textSize(13);
+  textAlign(LEFT, TOP);
+  text("WASD para moverte · Acércate a un guía para aprender", 20, 24);
+  pop();
+  hintAlpha -= 0.3;
+}
+
+// --------------------------------- CLASES ---------------------------------
+
+class Guide {
+  constructor(id) {
+    this.id = id;
+    this.reset();
+    this.progress = random(0, 0.1);
+    this.tourists = [];
+    
+    let nT = floor(random(8, 13));
+    for (let i = 0; i < nT; i++) {
+      this.tourists.push(new Tourist(this));
+    }
+  }
+
+  reset() {
+    this.progress = 0;
+    this.direction = 1;
+    this.speed = random(0.000012, 0.000022);
+    this.noiseSeed = random(5000);
+    this.wobbleAmp = random(60, 130);
+    this.pos = startPt.copy();
+    this.prevPos = startPt.copy();
+
+    this.state = "marching"; 
+    this.detourTarget = null;
+    this.detourTimer = 0;
+    this.pathPos = startPt.copy();
+
+    this.stayCloseProb = 0.7;
+    this.stayCloseTarget = 0.7;
+    this.levyMult = 1.0;
+    this.levyMultTarget = 1.0;
+
+    this.rippleTimer = 0;
+    this.ripples = [];
+  }
+
+  update(dt) {
+    this.prevPos = this.pos.copy();
+
+    if (this.state === "marching") {
+      this.progress += this.speed * dt * this.direction;
+
+      if (this.progress >= 1) {
+        this.progress = 1;
+        this.direction = -1;
+      } else if (this.progress <= 0 && this.direction === -1) {
+        this.progress = 0;
+        this.direction = 1;
+      }
+
+      let base = p5.Vector.lerp(startPt, volcanoPt, this.progress);
+      let dir = p5.Vector.sub(volcanoPt, startPt).normalize();
+      let perp = createVector(-dir.y, dir.x);
+      let n = noise(this.noiseSeed + this.progress * 3.5) - 0.5;
+      let offset = perp.mult(n * this.wobbleAmp * 2);
+      this.pathPos = p5.Vector.add(base, offset);
+      this.pos = this.pathPos.copy();
+
+      // Inicio de desvío
+      if (random() < 0.0015) {
+        this.state = "detouring";
+        let detourAng = random(TWO_PI);
+        let detourDist = random(40, 90);
+        this.detourTarget = createVector(
+          constrain(this.pos.x + cos(detourAng) * detourDist, 30, width - 30),
+          constrain(this.pos.y + sin(detourAng) * detourDist, 30, height - 30)
+        );
+        
+        // Emite la onda verde turquesa sobre el mar
+        paintGuideTurquoiseDetourRipple(this.pos);
+      }
+
+    } else if (this.state === "detouring") {
+      let toTarget = p5.Vector.sub(this.detourTarget, this.pos);
+      if (toTarget.mag() > 3) {
+        this.pos.add(toTarget.normalize().mult(dt * 0.04));
+      } else {
+        this.state = "resting";
+        this.detourTimer = random(2000, 5000);
+      }
+
+    } else if (this.state === "resting") {
+      this.detourTimer -= dt;
+      if (this.detourTimer <= 0) {
+        this.state = "returning";
+      }
+
+    } else if (this.state === "returning") {
+      let toPath = p5.Vector.sub(this.pathPos, this.pos);
+      if (toPath.mag() > 3) {
+        this.pos.add(toPath.normalize().mult(dt * 0.04));
+      } else {
+        this.state = "marching";
+      }
+    }
+
+    paintSeaWave(this.pos, this.prevPos, this.progress);
+    paintGuideTrail(this.pos);
+
+    let d = p5.Vector.dist(user.pos, this.pos);
+    let near = d < INFLUENCE_RADIUS;
+    
+    // Si el usuario está cerca, activa el modo "aprendizaje"
+    if (near) {
+      user.isLearning = true;
+    }
+
+    this.stayCloseTarget = near ? 0.90 : 0.70;
+    this.levyMultTarget = near ? 0.10 : 1.0;
+    this.stayCloseProb = lerp(this.stayCloseProb, this.stayCloseTarget, 0.03);
+    this.levyMult = lerp(this.levyMult, this.levyMultTarget, 0.03);
+
+    if (near) {
+      this.rippleTimer -= dt;
+      if (this.rippleTimer <= 0) {
+        this.ripples.push({ r: 0, alpha: 180 });
+        this.rippleTimer = 450;
+      }
+    }
+
+    for (let i = this.ripples.length - 1; i >= 0; i--) {
+      let rp = this.ripples[i];
+      rp.r += dt * 0.04;
+      rp.alpha -= dt * 0.12;
+      if (rp.alpha <= 0) this.ripples.splice(i, 1);
+    }
+
+    for (let t of this.tourists) t.update(dt);
+  }
+
+  display() {
+    for (let rp of this.ripples) {
+      noFill();
+      stroke(190, 50, 40, rp.alpha);
+      strokeWeight(1.2);
+      circle(this.pos.x, this.pos.y, rp.r * 2);
+    }
+
+    for (let t of this.tourists) t.display();
+
+    noStroke();
+    fill(200, 40, 40, 230);
+    circle(this.pos.x, this.pos.y, 14);
+    fill(200, 40, 40, 50);
+    circle(this.pos.x, this.pos.y, 26);
+  }
+}
+
+class Tourist {
+  constructor(guide) {
+    this.guide = guide;
+    this.repositionAtGuide();
+    this.vel = createVector(0, 0);
+    this.desiredDist = 20;
+    this.recalcTimer = 0;
+    this.state = "normal";
+    this.flightTarget = null;
+    this.flightTimer = 0;
+  }
+
+  repositionAtGuide() {
+    this.pos = this.guide.pos.copy().add(p5.Vector.random2D().mult(15));
+    this.state = "normal";
+  }
+
+  recalcDesired() {
+    if (random() < this.guide.stayCloseProb) {
+      this.desiredDist = abs(randomGaussian(16, 7));
+    } else {
+      this.desiredDist = abs(randomGaussian(48, 15));
+    }
+  }
+
+  update(dt) {
+    this.recalcTimer -= dt;
+    if (this.recalcTimer <= 0) {
+      this.recalcDesired();
+      this.recalcTimer = random(800, 2000);
+    }
+
+    if (this.state === "normal") {
+      let pFrame = 1 - pow(1 - 0.005, dt / 1000);
+      pFrame *= this.guide.levyMult;
+
+      if (random() < pFrame) {
+        this.state = "flight";
+        let ang = random(TWO_PI);
+        let stepDist = 50 / pow(random(0.01, 1), 1 / 1.3);
+        stepDist = constrain(stepDist, 120, max(width, height) * 0.7);
+        
+        this.flightTarget = createVector(
+          constrain(this.pos.x + cos(ang) * stepDist, 20, width - 20),
+          constrain(this.pos.y + sin(ang) * stepDist, 20, height - 20)
+        );
+        this.flightTimer = random(1500, 3200);
+      } else {
+        let toGuide = p5.Vector.sub(this.guide.pos, this.pos);
+        let d = toGuide.mag();
+        let steer = createVector(0, 0);
+        
+        if (d > 0.01) {
+          steer = toGuide.copy().normalize().mult(d - this.desiredDist).mult(0.02);
+        }
+        
+        let jitter = p5.Vector.random2D().mult(0.3);
+        this.vel.add(steer).add(jitter);
+        this.vel.limit(1.0);
+        this.pos.add(p5.Vector.mult(this.vel, dt * 0.04));
+        this.vel.mult(0.92);
+      }
+    } else if (this.state === "flight") {
+      let toTarget = p5.Vector.sub(this.flightTarget, this.pos);
+      if (toTarget.mag() > 4) {
+        this.pos.add(toTarget.normalize().mult(dt * 0.18));
+      }
+      this.flightTimer -= dt;
+      if (this.flightTimer <= 0) this.state = "returning";
+
+    } else if (this.state === "returning") {
+      let toGuide = p5.Vector.sub(this.guide.pos, this.pos);
+      if (toGuide.mag() < this.desiredDist + 10) {
+        this.state = "normal";
+      } else {
+        this.pos.add(toGuide.normalize().mult(dt * 0.035));
+      }
+    }
+
+    this.pos.x = constrain(this.pos.x, 5, width - 5);
+    this.pos.y = constrain(this.pos.y, 5, height - 5);
+
+    paintTouristDots(this.pos);
+  }
+
+  display() {
+    noStroke();
+    fill(25, 25, 25, 220);
+    circle(this.pos.x, this.pos.y, this.state === "flight" ? 5.5 : 4.5);
+  }
+}
+
+class UserAvatar {
+  constructor() {
+    this.pos = startPt.copy();
+    this.speed = 2.6;
+    this.isLearning = false;
+    this.rainbowHue = 0;
+  }
+
+  update() {
+    let v = createVector(0, 0);
+    if (keyIsDown(87)) v.y -= 1; // W
+    if (keyIsDown(83)) v.y += 1; // S
+    if (keyIsDown(65)) v.x -= 1; // A
+    if (keyIsDown(68)) v.x += 1; // D
+    
+    if (v.mag() > 0) {
+      v.normalize().mult(this.speed);
+      this.pos.add(v);
+    }
+    
+    this.pos.x = constrain(this.pos.x, 10, width - 10);
+    this.pos.y = constrain(this.pos.y, 10, height - 10);
+
+    // Resetea el flag de aprendizaje en cada frame (los guías lo activan si está cerca)
+    this.isLearning = false;
+  }
+
+  display() {
+    noStroke();
+
+    if (this.isLearning) {
+      // Transición Arcoíris cuando está aprendiendo (Círculo cromático HSB)
+      colorMode(HSB, 360, 100, 100);
+      this.rainbowHue = (this.rainbowHue + 3) % 360;
+      
+      fill(this.rainbowHue, 80, 100, 0.25);
+      circle(this.pos.x, this.pos.y, 34);
+      
+      fill(this.rainbowHue, 85, 95);
+      circle(this.pos.x, this.pos.y, 15);
+      
+      colorMode(RGB, 255); // Volver al modo estándar RGB
+    } else {
+      // Verde Esmeralda por defecto
+      fill(46, 204, 113, 60);
+      circle(this.pos.x, this.pos.y, 30);
+      
+      fill(46, 204, 113, 230); // #2ECC71
+      circle(this.pos.x, this.pos.y, 14);
+    }
+  }
+}
+```
