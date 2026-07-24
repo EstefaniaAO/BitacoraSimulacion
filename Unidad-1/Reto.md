@@ -67,3 +67,22 @@ Dentro del mapa se desplazarán varios puntos rojos que simbolizan a los guías.
 El usuario interactuará con la experiencia controlando un punto amarillo mediante las teclas **WASD**, permitiéndole desplazarse libremente por el mapa. Cuando el usuario se aproxime a uno de los guías, se generarán pequeñas ondas alrededor de este para representar una interacción o conversación entre ambos.
 
 Como parte del componente visual, el recorrido irá transformando el mapa de forma progresiva. A medida que los turistas avanzan, aparecerán zonas de color que construyen el entorno: tonos azules representarán el mar y tonos cafés se concentrarán alrededor del volcán, reforzando la percepción del paisaje y haciendo visible el progreso del recorrido.
+
+--- 
+
+Esta idea la conversé con la IA la cual propuso los siguientes cambios:
+
+> Expliqué mejor el comportamiento de los turistas.
+> 
+> Antes: "se moverán de manera aleatoria, pero procurando mantenerse cerca de su guía."
+> Ahora: ese comportamiento se justifica con una distribución normal, donde la mayoría permanece cerca del guía y solo unos pocos se alejan.
+> 
+> Añadí el evento excepcional.
+> Antes no había una excepción clara.
+> Ahora, con muy baja probabilidad, un turista realiza un desplazamiento largo (Lévy flight), descubre una zona nueva y revela más del mapa. Así cumples el concepto de Excepción.
+> 
+> Cambié la interacción del usuario.
+> Antes: al acercarse al guía aparecían ondas, pero no afectaban el sistema.
+> Ahora: las ondas siguen apareciendo, pero además representan que el usuario está modificando las probabilidades del comportamiento de los turistas.
+> 
+> Hice más evidente la relación con los cinco conceptos del enunciado, especialmente Tendencia, Normalidad e Influencia.
