@@ -93,6 +93,7 @@ Esta idea la conversé con la IA la cual propuso los siguientes cambios:
 
 **Idea final:** 
 
+
 La experiencia propone representar un recorrido interactivo mediante un mapa. El escenario tendrá un punto de partida ubicado en la esquina inferior izquierda y un destino en la esquina superior derecha, representado por un volcán. Inspirado en los recorridos del Volcanic Attitude Festival, el mapa simboliza un territorio en constante transformación, donde diferentes formas de aleatoriedad generan distintas maneras de explorar el paisaje.
 
 Dentro del mapa se desplazarán varios puntos rojos que simbolizan a los guías. Estos seguirán una trayectoria desde el inicio hasta el volcán utilizando un movimiento orgánico generado con ruido de Perlin, por lo que, aunque todos persiguen el mismo destino, cada recorrido será ligeramente diferente y parecerá surgir de manera natural.
@@ -107,9 +108,43 @@ Como parte del componente visual, el recorrido irá transformando el mapa de for
 
 # Implementación:
 
+## Prompt inicial:
+
+Crea una experiencia interactiva en p5.js con formato vertical 9:16, pantalla completa (windowWidth y windowHeight) y animación en tiempo real. La estética debe ser minimalista, elegante y artística, utilizando únicamente círculos, líneas suaves, transparencias y manchas de color. No utilizar imágenes ni sprites. 
+
+La escena representa un mapa. En la esquina inferior izquierda se encuentra el punto de inicio y en la esquina superior derecha un volcán representado de forma minimalista. Todo el sistema funciona continuamente incluso si el usuario no interactúa. 
+
+Guías 
+
+Crear entre 4 y 6 guías, representados por círculos rojos con un ligero resplandor. Todos parten desde el punto inicial y avanzan lentamente hacia el volcán. Su movimiento nunca debe ser completamente recto, sino seguir trayectorias orgánicas utilizando noise(). Cada guía sigue un camino ligeramente distinto. Cuando llegan al volcán vuelven al punto inicial para mantener el sistema funcionando indefinidamente. 
+
+
+Turistas 
+
+Cada guía posee entre 8 y 12 turistas, representados por pequeños círculos negros. Los turistas siguen una caminata aleatoria pero siempre intentan mantenerse cerca de su guía. La distancia respecto al guía debe seguir una distribución normal, haciendo que la mayoría permanezca cerca y unos pocos se alejen ligeramente. El movimiento debe ser muy lento, continuo y fluido, sin cambios bruscos de velocidad. Nunca deben parecer que salen disparados ni moverse de forma caótica. Siempre deben mostrar un pequeño movimiento incluso cuando permanecen cerca del guía. Evento excepcional (Lévy Flight) Con una probabilidad muy baja (aproximadamente 0.5% por segundo por turista) ocurre un Lévy Flight. Durante este evento el turista realiza un recorrido mucho más largo en una dirección aleatoria. El desplazamiento debe seguir siendo continuo y fluido; nunca debe sentirse como un teletransporte ni como un punto que sale volando. Después de unos segundos vuelve gradualmente a acercarse a su guía. Este evento debe sentirse muy raro y especial. Usuario El usuario controla un círculo amarillo mediante WASD. El usuario debe iniciar exactamente en el mismo punto de partida que los guías, en la esquina inferior izquierda. Puede desplazarse libremente por todo el mapa. 
+
+Influencia del usuario
+
+Cuando el usuario se acerca a un guía dentro de un radio determinado: aparecen pequeñas ondas circulares alrededor del guía representando una conversación; aumenta la probabilidad de que los turistas permanezcan cerca del guía (por ejemplo del 70% al 90%); disminuye considerablemente la probabilidad de que ocurra un Lévy Flight. Cuando el usuario se aleja, estas probabilidades vuelven gradualmente a la normalidad. La interacción debe modificar realmente el comportamiento probabilístico del sistema, no únicamente su apariencia. Construcción del paisaje El mapa comienza prácticamente vacío. A medida que los turistas recorren el territorio, el paisaje se construye lentamente. 
+
+Mar 
+
+El mar no aparece de inmediato, sino que comienza a formarse desde el inicio del recorrido. A medida que los guías y turistas avanzan hacia el volcán, el mar también avanza junto con ellos. Debe construirse mediante muchos círculos semitransparentes organizados como ondas perpendiculares al recorrido principal. Cada vez que el recorrido avanza un poco, aparece una nueva fila de círculos que se expande hacia ambos lados del camino. Estas ondas deben ir progresando lentamente desde el punto de inicio hasta el volcán, llenando la pantalla poco a poco conforme avanza la expedición. El crecimiento debe sentirse completamente orgánico, como si el recorrido fuera revelando el paisaje. Utilizar noise() para romper la perfección de las ondas y hacer que los bordes del mar sean naturales. Los círculos deben superponerse mediante transparencias para crear manchas suaves similares a una acuarela. Recorridos Mientras los turistas avanzan: dejan un rastro tenue y permanente; las zonas cercanas al volcán adquieren tonos cafés y terracotas; el resto del terreno se construye mediante manchas cálidas; múltiples recorridos deben mezclarse para crear un paisaje cada vez más rico. Cada ejecución debe producir un mapa distinto gracias a la aleatoriedad. Estética Toda la experiencia debe sentirse como una instalación artística generativa. La paleta de colores debe ser completamente coherente y agradable visualmente. Utilizar colores armónicos: mar en tonos celestes, turquesas y azules profundos; tierra en arenas, beige, ocres y terracotas; volcán en cafés cálidos con un brillo naranja sutil; guías en un rojo elegante con un halo suave; turistas como pequeños puntos gris oscuro o negro; usuario amarillo con un resplandor delicado. Todas las manchas deben mezclarse mediante transparencias para generar una apariencia similar a tinta o acuarela. El movimiento debe transmitir calma, contemplación y fluidez. 
+
+La composición general debe verse muy cuidada y estéticamente agradable, como una obra de arte generativa, evitando colores estridentes o elementos que rompan la armonía visual. Requisitos técnicos Utilizar clases para Guía, Turista y Usuario. Utilizar noise() para el movimiento de los guías. Utilizar una caminata aleatoria para los turistas. Simular una distribución normal para mantener a los turistas alrededor del guía. Implementar Lévy Flights para los eventos excepcionales. Adaptarse automáticamente mediante windowResized(). 
+
+Objetivo conceptual 
+
+La experiencia debe transmitir que: existen muchas trayectorias posibles; pequeñas tendencias construyen caminos; la mayoría de los comportamientos permanece dentro de lo habitual; ocasionalmente ocurre un evento excepcional que permite explorar nuevos territorios; el usuario nunca controla completamente el sistema, sino que únicamente modifica las probabilidades de lo que puede suceder. El resultado final debe sentirse como una instalación artística interactiva, donde el paisaje emerge lentamente gracias al recorrido colectivo. El mar nace mediante ondas perpendiculares al camino, los recorridos construyen el territorio y toda la composición comunica que la incertidumbre surge de reglas probabilísticas y no del caos absoluto.
+
+
 <img width="1869" height="915" alt="image" src="https://github.com/user-attachments/assets/cfa447b0-c13d-4d96-8782-f0ab272a7fd8" />
 
+Inicialmente surgió este prototipo, el cual contaba inicialmente con los requerimientos excepto el mar y el fondo de mapa. Intenté en un principio guiar a la IA para crear el mapa, modificar los recorridos de forma más llamativa y manejar de mejor forma el recorrido.
+
 <img width="1333" height="748" alt="image" src="https://github.com/user-attachments/assets/f22039dc-2244-41e1-aa97-f26630bdc5a7" />
+
+Después de algunos prompts la IA me sale con lo siguiente para intentar implementar el mapa, pero el recorrido se veía feo, el mapa no se adaptaba a la pantalla y aún no salía el mar.
 
 <img width="1866" height="881" alt="image" src="https://github.com/user-attachments/assets/f6d89468-467e-4234-812e-e57c32a5946f" />
 
