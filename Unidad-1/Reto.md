@@ -1,10 +1,12 @@
-<img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/06772677-000e-456e-9250-a3b975a2c9b2" />
+
 
 https://editor.p5js.org/estefaao2006/sketches/MHuw_i3lM
 
 https://editor.p5js.org/estefaao2006/full/MHuw_i3lM
 
 ## Volcanic Attitude Festival
+
+<img width="1226" height="742" alt="image" src="https://github.com/user-attachments/assets/06772677-000e-456e-9250-a3b975a2c9b2" />
 
 ### Resumen
 
