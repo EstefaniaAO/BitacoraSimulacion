@@ -209,6 +209,9 @@ Reduje ligeramente la fricción de arañas y avispas y ajusté la de las mantis.
 
 <img width="1852" height="865" alt="image" src="https://github.com/user-attachments/assets/b628205b-2caa-420a-84e3-fbd2c22b9287" />
 
+<img width="1843" height="872" alt="image" src="https://github.com/user-attachments/assets/5c94a057-0b56-4b05-9fcd-1dd43c0fbabf" />
+
+<img width="1862" height="867" alt="image" src="https://github.com/user-attachments/assets/f15a568f-1f06-4e86-9db9-e09bfb85efbc" />
 
 ## Autoevaluación
 
@@ -221,6 +224,6 @@ Reduje ligeramente la fricción de arañas y avispas y ajusté la de las mantis.
 | Experimenté, comparé, seleccioné y descarté con criterios claros. | 10% | 10% | Hice varias pruebas antes de llegar al resultado final. Cambié la cantidad de especies, probé diferentes matrices, ajusté varias veces la fricción y las velocidades y fui descartando las versiones que hacían que el sistema fuera muy caótico o demasiado estático. |
 | Puedo distinguir y sustentar lo diseñado y lo emergente. | 10% | 10% | Tengo claro qué cosas fueron decisiones de diseño, como la matriz, las velocidades y las cantidades de partículas, y qué cosas aparecieron por la interacción entre esas reglas, como la formación de grupos, las persecuciones y los cambios constantes que se generan en cada ejecución. |
 | **Total** | **100%** | **100%** | El sistema cumple con la intención que me planteé desde el inicio y el resultado final salió después de hacer varias pruebas y cambios hasta encontrar un comportamiento que mostrara mejor la idea de equilibrio y caos dentro del jardín. |
-```
 
-<img width="1843" height="872" alt="image" src="https://github.com/user-attachments/assets/5c94a057-0b56-4b05-9fcd-1dd43c0fbabf" />
+
+
