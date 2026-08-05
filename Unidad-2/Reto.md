@@ -1,8 +1,21 @@
-https://editor.p5js.org/estefaao2006/full/jL7dt5JXX
+App base:
 
+https://editor.p5js.org/estefaao2006/full/jL7dt5JXX
 https://editor.p5js.org/estefaao2006/sketches/jL7dt5JXX
 
 <img width="1861" height="868" alt="image" src="https://github.com/user-attachments/assets/37d8a2ce-78a4-4d93-a522-15e609baa632" />
+
+https://editor.p5js.org/estefaao2006/full/JJLqUHvbs
+
+<img width="1145" height="749" alt="image" src="https://github.com/user-attachments/assets/86e0a143-6efd-4af2-b5bc-c2dd8aaac11a" />
+
+
+App interacciones:
+
+https://editor.p5js.org/estefaao2006/full/Um4oufD4f
+
+<img width="1282" height="743" alt="image" src="https://github.com/user-attachments/assets/e9f30a6c-6323-4c70-91bf-45b5888bcd66" />
+
 
 # Intención
 
@@ -215,6 +228,24 @@ Captura con probabilidad. Cuando un depredador alcanza a una presa, en lugar de 
 * Territorio de arañas. Cada araña guarda una posición favorita. Si se aleja mucho, siente una atracción débil para volver. Da la sensación de que tienen una telaraña invisible.
 * ⁠    Reproducción. Si un individuo sobrevive mucho tiempo (por ejemplo, 30 segundos), tiene una pequeña probabilidad de crear otra partícula de su especie cerca que es pequeñita y crece. Esto hace que la población cambie con el tiempo.
 
+Esto en código básicamente avanzó a:
+
+Captura con probabilidad — cuando un depredador fijo (araña→mariposa, avispa→abeja, mantis→avispa) llega a distancia de captura, ambos se congelan 0.5–1s (con un ligero temblor visual). Al terminar: 70% la presa desaparece, 30% escapa con impulso aleatorio y el depredador entra en enfriamiento (1.5–3s) durante el cual pierde específicamente su atracción hacia esa especie presa.
+
+Competencia entre depredadores — dos individuos de la misma especie depredadora que se acercan demasiado entre sí reciben una repulsión extra fuerte, independiente de la matriz, lo que suele separarlos antes de que ambos lleguen a capturar a la vez.
+
+Polinización y muerte de flores — cada flor acumula tiempo de visita de abejas/mariposas cercanas; cada ~2.5s de presencia sostenida tira un dado (8%) para brotar una flor nueva cerca. Si pasa 18s sin visitas, empieza a marchitarse (cambia de color a tonos marrones y se encoge) durante 5s antes de desaparecer — pero se recupera si vuelve a ser visitada a tiempo.
+
+Mantis paciente — reduce su velocidad al 32% salvo que detecte una avispa a menos de 140px, momento en que acelera a fondo.
+
+Territorio de arañas — cada araña guarda su posición de origen; si se aleja más de 170px siente una atracción suave de regreso ("telaraña invisible").
+
+Reproducción — cualquier individuo que supera ~28s de vida tiene una probabilidad pequeña por segundo (~1.8%) de generar una cría cerca que nace pequeña y crece hasta su tamaño normal en unos 6s.
+
+Apariencia distintiva: abejas con rayas negras y alas; mariposas con alas de dos tonos que aletean; arañas con 8 patas radiales; avispas con cintura marcada y rayas negro/naranja; mantis con dos "brazos" triangulares plegados; flores con pétalos que se marchitan visualmente.
+
+A partir de implementar eso hice cambios de que los depredadores se reprodujeran mas lento y cambié los parámetros iniciales para que hubiera un equilibrio en el jardín.
+
 ## Manifestaciones del sistmea
 
 
@@ -229,6 +260,10 @@ Captura con probabilidad. Cuando un depredador alcanza a una presa, en lugar de 
 <img width="1845" height="882" alt="image" src="https://github.com/user-attachments/assets/732c9586-b812-4e97-ba1b-33ab8ee5b006" />
 
 <img width="904" height="848" alt="image" src="https://github.com/user-attachments/assets/309ad583-accd-431d-97a3-68c69763f7c3" />
+
+<img width="1145" height="749" alt="image" src="https://github.com/user-attachments/assets/94973b84-85b5-45f6-9058-13f654b1e274" />
+
+<img width="1291" height="752" alt="image" src="https://github.com/user-attachments/assets/574b9f3d-6812-49d9-8649-5016a04524c2" />
 
 
 ## Autoevaluación
