@@ -204,6 +204,17 @@ Mantis     0.91
 
 Reduje ligeramente la fricción de arañas y avispas y ajusté la de las mantis. Esta combinación produjo un equilibrio más claro entre agrupación y dispersión. Los polinizadores podían formar enjambres temporales alrededor de las flores y los depredadores tenían suficiente inercia para romper esos grupos sin controlar permanentemente el sistema.
 
+* Una vez contenta con el sistema de partículas, añadí cosas adicionales.
+Captura con probabilidad. Cuando un depredador alcanza a una presa, en lugar de atravesarla se quedan “pegados” durante unos 0.5–1 segundo. Después:
+- 70%  la presa desaparece.
+- 30%  la presa escapa con un impulso aleatorio y el depredador tiene un pequeño tiempo de espera antes de volver a perseguir.
+* Competencia entre depredadores. Si dos arañas están persiguiendo a la misma mariposa y se acercan demasiado entre ellas, se repelen con fuerza durante unos instantes. Eso hace que muchas veces una termine perdiendo la presa.
+* Polinización. Cada vez que una abeja o mariposa permanece cerca de una flor durante cierto tiempo, la flor “produce” otra flor cercana con una probabilidad baja (5–10%). Así el jardín cambia lentamente.
+* Muerte de flores. Si una flor pasa mucho tiempo sin recibir visitas de polinizadores, tiene una pequeña probabilidad de marchitarse y luego desaparecer. Así el jardín también puede deteriorarse
+* ⁠    Mantis pacientes. En lugar de perseguir siempre, las mantis reducen mucho su velocidad cuando no hay avispas cerca y solo aceleran cuando detectan una.
+* Territorio de arañas. Cada araña guarda una posición favorita. Si se aleja mucho, siente una atracción débil para volver. Da la sensación de que tienen una telaraña invisible.
+* ⁠    Reproducción. Si un individuo sobrevive mucho tiempo (por ejemplo, 30 segundos), tiene una pequeña probabilidad de crear otra partícula de su especie cerca que es pequeñita y crece. Esto hace que la población cambie con el tiempo.
+
 ## Manifestaciones del sistmea
 
 
@@ -222,7 +233,9 @@ Reduje ligeramente la fricción de arañas y avispas y ajusté la de las mantis.
 
 ## Autoevaluación
 
-| Criterio | Peso | Valoración | Aporte |
+Hice la autoevaluación mal ajaja pero abajo está corregida.
+
+| Criterio | Peso | Valoración | Motivo |
 |---|---:|:---:|---|
 | La intención es clara y perceptible en el comportamiento. | 20% | 20% | Creo que la intención sí se entiende durante la simulación. Se forman grupos alrededor de las flores, pero esos grupos nunca duran mucho porque las demás especies empiezan a perseguirse o a evitarse entre ellas. Eso hace que el jardín esté cambiando todo el tiempo sin dejar de verse como un jardín. |
 | Los tipos, cantidades, matriz y parámetros están justificados desde la intención. | 25% | 25% | Fui justificando cada decisión según lo que quería mostrar. Elegí las especies, la cantidad de partículas, la matriz de relaciones, las velocidades, la fricción y las distancias pensando en cómo afectarían el comportamiento del sistema y cambié varias de esas decisiones cuando veía que no producían el resultado que buscaba. |
@@ -231,6 +244,18 @@ Reduje ligeramente la fricción de arañas y avispas y ajusté la de las mantis.
 | Experimenté, comparé, seleccioné y descarté con criterios claros. | 10% | 10% | Hice varias pruebas antes de llegar al resultado final. Cambié la cantidad de especies, probé diferentes matrices, ajusté varias veces la fricción y las velocidades y fui descartando las versiones que hacían que el sistema fuera muy caótico o demasiado estático. |
 | Puedo distinguir y sustentar lo diseñado y lo emergente. | 10% | 10% | Tengo claro qué cosas fueron decisiones de diseño, como la matriz, las velocidades y las cantidades de partículas, y qué cosas aparecieron por la interacción entre esas reglas, como la formación de grupos, las persecuciones y los cambios constantes que se generan en cada ejecución. |
 | **Total** | **100%** | **100%** | El sistema cumple con la intención que me planteé desde el inicio y el resultado final salió después de hacer varias pruebas y cambios hasta encontrar un comportamiento que mostrara mejor la idea de equilibrio y caos dentro del jardín. |
+
+| Criterio | Peso | Valoración | Aporte |
+|---|---:|---:|---:|
+| La intención es clara y perceptible en el comportamiento. | 20% | 100 | 20 |
+| Los tipos, cantidades, matriz y parámetros están justificados desde la intención. | 25% | 100 | 25 |
+| Comprendo y puedo modificar el funcionamiento técnico del sistema. | 20% | 100 | 20 |
+| El sistema produce variaciones con una identidad reconocible. | 15% | 100 | 15 |
+| Experimenté, comparé, seleccioné y descarté con criterios claros. | 10% | 100 | 10 |
+| Puedo distinguir y sustentar lo diseñado y lo emergente. | 10% | 100 | 10 |
+| **Total** | **100%** | — | **100** |
+
+**Nota propuesta:** **5.0** (100 ÷ 20)
 
 
 
