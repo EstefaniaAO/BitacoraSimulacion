@@ -213,6 +213,9 @@ Reduje ligeramente la fricción de arañas y avispas y ajusté la de las mantis.
 
 <img width="1862" height="867" alt="image" src="https://github.com/user-attachments/assets/f15a568f-1f06-4e86-9db9-e09bfb85efbc" />
 
+<img width="1845" height="882" alt="image" src="https://github.com/user-attachments/assets/732c9586-b812-4e97-ba1b-33ab8ee5b006" />
+
+
 ## Autoevaluación
 
 | Criterio | Peso | Valoración | Aporte |
