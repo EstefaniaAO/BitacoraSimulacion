@@ -1,12 +1,12 @@
 ### https://estefaniaao.github.io/Unidad6/
 
-## Canción: bonfire · wave to earth · Daniel Kim
+# Canción: bonfire · wave to earth · Daniel Kim
 
 <img width="640" height="640" alt="image" src="https://github.com/user-attachments/assets/63015930-0841-45a7-b625-df41bba5151a" />
 
-#### Ideas iniciales:
+## Ideas iniciales:
 
-Letra:
+### Letra:
 
 All the leaves have been fallen off
 All The branches are small
@@ -35,7 +35,7 @@ Falling down, falling down
 Ah-ah-ah
 Ooh-ooh
 
-Temas: 
+### Temas: 
 
 Transición, cambio, perdida
 
