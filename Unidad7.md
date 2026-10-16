@@ -48,11 +48,27 @@ Diseñé los elementos principales en illustrator SVG:
 </svg>
 
 
+
 <img width="100" height="150" alt="C" src="https://github.com/user-attachments/assets/482585cb-2e8e-461c-a2ea-b32c57dfec26" />
 <img width="108" height="150" alt="O" src="https://github.com/user-attachments/assets/6afd75dd-6f3e-4bd7-aa44-9af55451f99f" />
 <img width="89" height="150" alt="L" src="https://github.com/user-attachments/assets/804b0ffe-42d7-4b8b-93ce-b4bc9d7e9df0" />
 <img width="114" height="150" alt="A" src="https://github.com/user-attachments/assets/01ebd23b-6317-42e8-8eca-650431f25e09" />
 
+Cumplimiento del encargo: mi sistema utiliza las letras del nombre de una organización, permite jugar con ellas y funciona en tiempo real en la Web para el contexto definido.
+
+25/25
+
+Comprensión y verificación: puedo explicar y justificar el modelo, sus estados y sus reglas. Puedo predecir y verificar el efecto de modificar una regla o un parámetro.
+
+25/25
+
+Interacción e identidad: puedo justificar qué permiten descubrir las acciones y sus consecuencias sobre el atributo elegido, y contrastarlo con lo observado en las pruebas con otras personas.
+
+20/25
+
+Resolución tipográfica y experiencia de juego: la composición, el ritmo, los momentos de lectura y las respuestas perceptibles permiten explorar el sistema y sostienen su intención.
+
+20/25
 
 Iteraciones:
 
