@@ -58,17 +58,27 @@ Cumplimiento del encargo: mi sistema utiliza las letras del nombre de una organi
 
 25/25
 
+Se usa la palabra COLA inicialmente, mediante ellos la persona puede jugar y completar el flujo de la interacción y funciona a tiempo real por medio de github pages.
+
 Comprensión y verificación: puedo explicar y justificar el modelo, sus estados y sus reglas. Puedo predecir y verificar el efecto de modificar una regla o un parámetro.
 
 25/25
+
+El programa tiene distintos estados, asimismo cada letra tiene diferentes estados. El sistema se "Completa" después de verificar que esté en cierto estado (Palabra completada y Letras felices)
+
+Hay pequeñas interacciones y está parametrizado.
 
 Interacción e identidad: puedo justificar qué permiten descubrir las acciones y sus consecuencias sobre el atributo elegido, y contrastarlo con lo observado en las pruebas con otras personas.
 
 20/25
 
+Puedo justificar y creo que se entiende bien el atributo, sin embargo me preocupa que quizá no es la idea más clara. En las pruebas siempre llegué a respuestas similares como Felicidad, Alegría, Risa, etc.
+
 Resolución tipográfica y experiencia de juego: la composición, el ritmo, los momentos de lectura y las respuestas perceptibles permiten explorar el sistema y sostienen su intención.
 
 20/25
+
+Siento que podría haber pensado en algo más creativo para que las letras interactuaran :( Ne gusta pero no estoy tan convencida.
 
 Iteraciones:
 
