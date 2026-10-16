@@ -1,5 +1,7 @@
 # Coca-Cola
 
+https://estefaniaao.github.io/Simulacion-Unidad7/
+
 <img width="1200" height="1200" alt="coca-cola-3-logo-png-transparent" src="https://github.com/user-attachments/assets/7dfadf1a-d436-47bb-9161-7290ea7135ea" />
 
 ### 1. Empresa u organización
