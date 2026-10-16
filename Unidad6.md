@@ -36,3 +36,7 @@ Sexta:
 <img width="1852" height="922" alt="Captura de pantalla 2026-10-16 011743" src="https://github.com/user-attachments/assets/f34179c0-d6ac-4b21-9aec-d11f68de8c93" />
 <img width="1834" height="890" alt="Captura de pantalla 2026-10-16 012319" src="https://github.com/user-attachments/assets/48138d41-926f-4a77-88d1-49321a4c1968" />
 <img width="1852" height="907" alt="Captura de pantalla 2026-10-16 011715" src="https://github.com/user-attachments/assets/4bf25279-136a-496f-be4f-76c6dd0233a7" />
+
+Septima:
+
+<img width="1399" height="783" alt="image" src="https://github.com/user-attachments/assets/6454c5c4-4299-42a2-aaac-e554d7fbcafc" />
