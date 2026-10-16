@@ -1,4 +1,5 @@
 
+
 Primera iteración:
 <img width="1860" height="924" alt="image" src="https://github.com/user-attachments/assets/14ae5260-5044-4ab0-b491-369b072a97e9" />
 <img width="1864" height="918" alt="image" src="https://github.com/user-attachments/assets/24e52e5f-bdcd-4c86-a9a5-ef752a35c2ab" />
@@ -29,3 +30,9 @@ Quinta:
 
 <img width="1829" height="808" alt="image" src="https://github.com/user-attachments/assets/a7d632f6-8c23-496d-a4aa-207643b8a9ed" />
 <img width="1807" height="799" alt="image" src="https://github.com/user-attachments/assets/8cfe0d8b-1563-467e-94fc-8a7cb3ae77cc" />
+
+Sexta:
+
+<img width="1852" height="922" alt="Captura de pantalla 2026-10-16 011743" src="https://github.com/user-attachments/assets/f34179c0-d6ac-4b21-9aec-d11f68de8c93" />
+<img width="1834" height="890" alt="Captura de pantalla 2026-10-16 012319" src="https://github.com/user-attachments/assets/48138d41-926f-4a77-88d1-49321a4c1968" />
+<img width="1852" height="907" alt="Captura de pantalla 2026-10-16 011715" src="https://github.com/user-attachments/assets/4bf25279-136a-496f-be4f-76c6dd0233a7" />
