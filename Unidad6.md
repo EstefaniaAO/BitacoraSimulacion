@@ -4,6 +4,47 @@
 
 <img width="640" height="640" alt="image" src="https://github.com/user-attachments/assets/63015930-0841-45a7-b625-df41bba5151a" />
 
+#### Ideas iniciales:
+
+Letra:
+
+All the leaves have been fallen off
+All The branches are small
+Burn the sky, clouds become ash
+Fireflies becomes a star
+
+What color is my sky painted?
+What color is your emotion?
+Close your eyes slowly and feel the wind
+The bonfire is fading out
+
+Maybe we are falling
+Falling down with the rain
+Falling down, falling down
+Ah-ah-ah
+Ooh-ooh
+
+What color is my sky painted?
+What color is your emotion?
+Close your eyes slowly and feel the wind
+The bonfire is fading out
+
+Maybe we are falling
+Falling down with the rain
+Falling down, falling down
+Ah-ah-ah
+Ooh-ooh
+
+Temas: 
+
+Transición, cambio, perdida
+
+Inicialmente si se pinta la idea de un bosque, con esa paleta de color, grises, beige, verdes apagados y naranjas con colores que se desintegran. de la mitad se deberia formar un fuego que genera tambien el humo, y pequeñas luciernagas en flocking encima. Lo que pinta el bosque va con flowfields al azar pero que hayan partes medio constantes que lo vuelvan diferente pero que formen igual como la idea general de un bosque (REF IMG 1 y 2)
+Quiero que al darle una tecla en la fase 1 las partes que sean como ramas en los flowfields al darle a un boton haya como una explosion de naranjas y asi que sean como las hojas apareciendo
+Cambian como los flowfields y quiero que de la impresion como cuando uno riega agua sobre una pintura y  como que se empieza a mezclar y regar.  (REF IMG 3 y 4)
+Que empiecen a cambiar los colores como en degradado de los nuevos trazos y se vuelvan tonos rojizos, como una fogata, el flowfield vuelve a cambiar para no ir hacia abajo mayormente si no como en circulos formando llamas y los trazos van llenando la pantalla  (REF IMG 5 y 6)
+Quiero que se vuelva negro como desde las puntas hasta las raices y luego todo vuelva a surgir desde el azul, y que al darle a una tecla en esta fase se creen pequeñas espirales  (REF IMG 7)
+
 
 https://youtu.be/EnQHICOkeMs?si=Nxt7NlfNvbD16wDx
 
@@ -48,8 +89,23 @@ Septima:
 
 <img width="1399" height="783" alt="image" src="https://github.com/user-attachments/assets/6454c5c4-4299-42a2-aaac-e554d7fbcafc" />
 
+## Autoevaluación:
 
 Cumplimiento del encargo: mi instrumento utiliza tecnología web, funciona en tiempo real y permite interpretar la pieza musical elegida.
+
+25/25
+
 Comprensión y verificación: puedo explicar y defender cómo está construido el sistema, qué perciben los agentes y cómo calculan sus acciones. Puedo predecir y verificar los cambios al modificar un parámetro.
+
+25/25
+
 Diseño e intención: puedo justificar la selección y combinación de comportamientos y relacionarlos con mi interpretación musical.
+
+25/25
+
 Interpretación humana: mi score y mis controles permiten conducir el sistema en vivo y responder a su comportamiento.
+
+25/25
+
+
+### Nota: Aunque siento que cumplo estos criterios si tomo la descripción que se le da a cada uno, no soy tan tan fan del resultado final y planeo seguir modificandolo.
