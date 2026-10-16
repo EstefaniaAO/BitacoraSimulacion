@@ -1,4 +1,11 @@
-https://estefaniaao.github.io/Unidad6/
+### https://estefaniaao.github.io/Unidad6/
+
+## Canción: bonfire · wave to earth · Daniel Kim
+
+<img width="640" height="640" alt="image" src="https://github.com/user-attachments/assets/63015930-0841-45a7-b625-df41bba5151a" />
+
+
+https://youtu.be/EnQHICOkeMs?si=Nxt7NlfNvbD16wDx
 
 Primera iteración:
 <img width="1860" height="924" alt="image" src="https://github.com/user-attachments/assets/14ae5260-5044-4ab0-b491-369b072a97e9" />
@@ -40,3 +47,9 @@ Sexta:
 Septima:
 
 <img width="1399" height="783" alt="image" src="https://github.com/user-attachments/assets/6454c5c4-4299-42a2-aaac-e554d7fbcafc" />
+
+
+Cumplimiento del encargo: mi instrumento utiliza tecnología web, funciona en tiempo real y permite interpretar la pieza musical elegida.
+Comprensión y verificación: puedo explicar y defender cómo está construido el sistema, qué perciben los agentes y cómo calculan sus acciones. Puedo predecir y verificar los cambios al modificar un parámetro.
+Diseño e intención: puedo justificar la selección y combinación de comportamientos y relacionarlos con mi interpretación musical.
+Interpretación humana: mi score y mis controles permiten conducir el sistema en vivo y responder a su comportamiento.
