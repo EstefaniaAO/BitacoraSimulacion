@@ -70,16 +70,15 @@ Hay pequeñas interacciones y está parametrizado.
 
 Interacción e identidad: puedo justificar qué permiten descubrir las acciones y sus consecuencias sobre el atributo elegido, y contrastarlo con lo observado en las pruebas con otras personas.
 
-20/25
+25/25
 
-Puedo justificar y creo que se entiende bien el atributo, sin embargo me preocupa que quizá no es la idea más clara. En las pruebas siempre llegué a respuestas similares como Felicidad, Alegría, Risa, etc.
+Puedo justificar y creo que se entiende bien el atributo. En las pruebas siempre llegué a respuestas similares como Felicidad, Alegría, Risa, etc.
 
 Resolución tipográfica y experiencia de juego: la composición, el ritmo, los momentos de lectura y las respuestas perceptibles permiten explorar el sistema y sostienen su intención.
 
-20/25
+25/25
 
-Siento que podría haber pensado en algo más creativo para que las letras interactuaran :( Ne gusta pero no estoy tan convencida.
-
+Ya con las correcciones siento que se adapta más a lo que quería, se comunica el atributo pero también es una vibra mucho más adaptada a la marca.
 Iteraciones:
 
 <img width="1408" height="563" alt="image" src="https://github.com/user-attachments/assets/443c4a5a-2a63-4770-b9a9-2b75b2328c32" />
